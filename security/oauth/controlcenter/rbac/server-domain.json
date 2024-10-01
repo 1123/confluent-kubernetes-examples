@@ -1,0 +1,29 @@
+{
+  "CN": "*.my.domain",
+  "hosts": [
+    "*.my.domain",
+    "*.operator.svc.cluster.local",
+    "*.zookeeper.operator.svc.cluster.local",
+    "*.kraftcontroller.operator.svc.cluster.local",
+    "*.kafka.operator.svc.cluster.local",
+    "*.ldap.operator.svc.cluster.local",
+    "ldap.operator.svc.cluster.local",
+    "*.my.domain",
+    "*.destination.svc.cluster.local",
+    "*.zookeeper.destination.svc.cluster.local",
+    "*.kraftcontroller.destination.svc.cluster.local",
+    "*.kafka.destination.svc.cluster.local",
+    "*.replicator.destination.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "Universe",
+      "ST": "Pangea",
+      "L": "Earth"
+    }
+  ]
+}
