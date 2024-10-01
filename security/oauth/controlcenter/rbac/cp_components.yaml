@@ -79,13 +79,14 @@ spec:
           clientCredentials:
             secretRef: oauth-jass-oidc
           configurations:
-            groupsClaimName: profile_groups
+            groupsClaimName: groups
             subClaimName: sub
-            issuer: http://keycloak:8080/realms/sso_test
-            jwksEndpointUri: http://keycloak:8080/realms/sso_test/protocol/openid-connect/certs
-            authorizeBaseEndpointUri: http://keycloak:8080/realms/sso_test/protocol/openid-connect/auth
-            tokenBaseEndpointUri: http://keycloak:8080/realms/sso_test/protocol/openid-connect/token
+            issuer: https://login.microsoftonline.com/38c8bc12-4622-49a3-a08d-f10715793c67/v2.0
+            jwksEndpointUri: https://login.microsoftonline.com/38c8bc12-4622-49a3-a08d-f10715793c67/discovery/v2.0/keys
+            authorizeBaseEndpointUri: https://login.microsoftonline.com/38c8bc12-4622-49a3-a08d-f10715793c67/oauth2/v2.0/authorize
+            tokenBaseEndpointUri: https://login.microsoftonline.com/38c8bc12-4622-49a3-a08d-f10715793c67/oauth2/v2.0/token
             refreshToken: false
+
   dependencies:
     kRaftController:
       controllerListener:

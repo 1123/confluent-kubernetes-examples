@@ -1,0 +1,2 @@
+clientId=$APPLICATION_ID # this is not the Secret ID!
+clientSecret=$CLIENT_SECRET
