@@ -1,0 +1,6 @@
+bootstrap.servers=$BOOTSTRAP_SERVERS
+security.protocol=SSL
+ssl.endpoint.identification.algorithm=https
+ssl.keystore.location=server.pem
+ssl.keystore.password=confluent
+ssl.key.password=confluent

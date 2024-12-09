@@ -1,0 +1,13 @@
+producer.csr
+kafka.producer.keystore.jks
+kafka.producer.truststore.jks
+producer-ca1-signed.crt
+producer.certificate.pem
+producer.der
+producer.key
+producer.keystore.p12
+producer_keystore_creds
+producer_sslkey_creds
+producer_truststore_creds
+snakeoil-ca-1.crt
+snakeoil-ca-1.key

@@ -1,0 +1,11 @@
+server.pem
+server-key.pem
+benedikt.env
+ca.pem
+client.properties
+kafka-connect.yaml
+ccloud-credentials.txt
+ccloud-sr-credentials.txt
+create-topics.sh
+server-keystore.p12
+confluentinc-kafka-connect-jdbc-10.2.5.zip

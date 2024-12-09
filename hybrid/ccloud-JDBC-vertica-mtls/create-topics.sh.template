@@ -1,0 +1,15 @@
+kafka-topics \
+  --command-config /opt/confluentinc/etc/connect/consumer.properties \
+  --bootstrap-server $BOOTSTRAP_SERVERS \
+  --create \
+  --partitions 3 \
+  --replication-factor 3 \
+  --topic verticacrd_test
+
+kafka-topics \
+  --command-config /opt/confluentinc/etc/connect/consumer.properties \
+  --bootstrap-server $BOOTSTRAP_SERVERS \
+  --create \
+  --partitions 3 \
+  --replication-factor 3 \
+  --topic verticarestapi_test
