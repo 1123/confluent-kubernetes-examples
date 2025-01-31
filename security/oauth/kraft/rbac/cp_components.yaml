@@ -2,7 +2,7 @@ apiVersion: platform.confluent.io/v1beta1
 kind: KRaftController
 metadata:
   name: kraftcontroller
-  namespace: operator
+  namespace: confluent
 spec:
   dataVolumeCapacity: 10G
   image:
@@ -29,7 +29,7 @@ spec:
       - User:ssologin
   dependencies:
     mdsKafkaCluster:
-      bootstrapEndpoint: kafka.operator.svc.cluster.local:9073
+      bootstrapEndpoint: kafka.confluent.svc.cluster.local:9073
       authentication:
         type: oauth
         jaasConfig:
@@ -46,7 +46,7 @@ apiVersion: platform.confluent.io/v1beta1
 kind: Kafka
 metadata:
   name: kafka
-  namespace: operator
+  namespace: confluent
 spec:
   replicas: 3
   image:
