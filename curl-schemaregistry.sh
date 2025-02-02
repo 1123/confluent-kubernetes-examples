@@ -8,7 +8,7 @@ RESPONSE=$(kubectl exec -it schemaregistry-0 -n confluent -- \
 )
 TOKEN=$(echo $RESPONSE | jq -r .access_token)
 
-echo "Retrieved Token: $TOKEN"
+# echo "Retrieved Token: $TOKEN"
   
 kubectl exec -it schemaregistry-0 -n confluent -- \
   curl -k --location "https://schemaregistry:8081/subjects" \

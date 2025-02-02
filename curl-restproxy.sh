@@ -4,17 +4,20 @@
 #
 # 127.0.0.1	kafka
 # 127.0.0.1	keycloak
-TOKEN=$(curl --location 'http://keycloak:8080/realms/sso_test/protocol/openid-connect/token' \
-  --header 'Content-Type: application/x-www-form-urlencoded' \
-  --header 'Authorization: Basic c3NvbG9naW46S2JMUmloMUh6akRDMjY3UGVmdUtVN1FJb1o4aGdIREs=' \
-  --data-urlencode 'grant_type=client_credentials' | jq -r .access_token)
+
+RESPONSE=$(kubectl exec -it kafkarestproxy-0 -n confluent -- \
+  curl --location 'http://keycloak:8080/realms/sso_test/protocol/openid-connect/token' \
+       --header 'Content-Type: application/x-www-form-urlencoded' \
+       --header 'Authorization: Basic c3NvbG9naW46S2JMUmloMUh6akRDMjY3UGVmdUtVN1FJb1o4aGdIREs=' \
+       --data-urlencode 'grant_type=client_credentials'
+)
+TOKEN=$(echo $RESPONSE | jq -r .access_token)
 
 # echo "Retrieved Token: $TOKEN"
   
-CLUSTER_ID=a0c9a5f9-fdd2-4f5f-a33
-
 # Make sure to also port-forward rest-proxy
-curl -k --location "https://restproxy:8082/topics" \
- --header "Content-Type: application/vnd.kafka.v2+json" \
- --header "Accept: application/vnd.kafka.v2+json" \
- --header "Authorization: Bearer $TOKEN" 
+kubectl exec -it kafkarestproxy-0 -n confluent -- \
+  curl -k --location "https://kafkarestproxy:8082/topics" \
+   --header "Content-Type: application/vnd.kafka.v2+json" \
+   --header "Accept: application/vnd.kafka.v2+json" \
+   --header "Authorization: Bearer $TOKEN" 

@@ -4,9 +4,7 @@ NAMESPACE=confluent
 
 kubectl create namespace $NAMESPACE
 
-kubectl config set-context \
-  --current \
-   --namespace=$NAMESPACE
+kubectl config set-context --current --namespace=$NAMESPACE > /dev/null
 
 kubectl apply \
   -f security/oauth/keycloak/keycloak_deploy.yaml
@@ -29,6 +27,17 @@ kubectl create secret generic mds-token \
 
 kubectl apply -f security/oauth/kraft/rbac/cp_components.yaml
 
+./curl-mds.sh || echo "MDS does not seem to be working"
+
 kubectl apply -f restproxy.yaml
 
+./curl-restproxy.sh || echo "Restproxy does not seem to be working"
+
 kubectl apply -f connect.yaml
+
+./curl-connect.sh || echo "Kafka Connect Cluster does not seem to be working"
+
+kubectl apply -f schemaregistry.yaml
+
+./curl-schemaregistry.sh || echo "Schema Registry does not seem to be working"
+

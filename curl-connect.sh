@@ -8,10 +8,8 @@ RESPONSE=$(kubectl exec -it connect-0 -n confluent -- \
 )
 TOKEN=$(echo $RESPONSE | jq -r .access_token)
 
-echo "Retrieved Token: $TOKEN"
+# echo "Retrieved Token: $TOKEN"
   
-CLUSTER_ID=a0c9a5f9-fdd2-4f5f-a33
-
 kubectl exec -it connect-0 -n confluent -- \
   curl -k --location "https://connect:8083/connector-plugins" \
           --header "Content-Type: application/json" \
