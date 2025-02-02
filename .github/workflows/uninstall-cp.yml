@@ -1,0 +1,27 @@
+name: Deploy Confluent Platform to Azure Kubernetes Service
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install az, authenticate to cluster, uninstall cp
+        run: |
+          az login \
+             --service-principal \
+             -u ${{ secrets.AZ_CLIENT_ID }} \
+             -p ${{ secrets.AZ_CLIENT_SECRET }} \
+             --tenant ${{ secrets.AZ_TENANT_ID }}
+          az aks get-credentials \
+               --resource-group ${{ secrets.AZ_RG }} \
+               --name ${{ secrets.AKS_CLUSTER }} \
+               --overwrite-existing
+          az account set --subscription ${{ secrets.AZ_SUBSCRIPTION_ID }}
+
+          ./destroy.sh
+          
