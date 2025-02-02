@@ -30,3 +30,5 @@ kubectl create secret generic mds-token \
 kubectl apply -f security/oauth/kraft/rbac/cp_components.yaml
 
 kubectl apply -f restproxy.yaml
+
+kubectl apply -f connect.yaml
