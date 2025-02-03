@@ -1,7 +1,7 @@
 apiVersion: platform.confluent.io/v1beta1
 kind: KRaftController
 metadata:
-  name: kraftcontroller
+  name: source-kraft
   namespace: confluent
 spec:
   dataVolumeCapacity: 10G
@@ -13,7 +13,7 @@ spec:
 apiVersion: platform.confluent.io/v1beta1
 kind: Kafka
 metadata:
-  name: kafka
+  name: source-kafka
   namespace: confluent
 spec:
   dataVolumeCapacity: 10G
@@ -24,16 +24,16 @@ spec:
   dependencies:
     kRaftController:
       clusterRef:
-        name: kraftcontroller
+        name: source-kraft
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: KafkaRestClass
 metadata:
-  name: krc-cfk
+  name: krc-source
   namespace: confluent
 spec:
   kafkaClusterRef:
-    name: kafka
+    name: source-kafka
   kafkaRest:
     endpoint: http://kafka.confluent.svc.cluster.local:8090
 ---
@@ -44,7 +44,7 @@ metadata:
   namespace: confluent
 spec:
   kafkaRestClassRef:
-    name: krc-cfk
+    name: krc-source
   replicas: 3
   partitionCount: 4
   configs:
