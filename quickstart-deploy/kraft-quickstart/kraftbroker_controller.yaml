@@ -35,7 +35,7 @@ spec:
   kafkaClusterRef:
     name: source-kafka
   kafkaRest:
-    endpoint: http://kafka.confluent.svc.cluster.local:8090
+    endpoint: http://source-kafka.confluent.svc.cluster.local:8090
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: KafkaTopic

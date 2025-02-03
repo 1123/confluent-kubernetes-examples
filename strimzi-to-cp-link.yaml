@@ -1,0 +1,20 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ClusterLink
+metadata:
+  name: strimzi-to-cp
+  namespace: confluent
+spec:
+  destinationKafkaCluster:
+    kafkaRestClassRef:
+      name: krc-destination
+      namespace: confluent
+  sourceKafkaCluster: 
+    bootstrapEndpoint: source-kafka.confluent.svc.cluster.local:9092
+    kafkaRestClassRef:
+      name: krc-source
+      namespace: confluent  
+  consumerGroupFilters: 
+  aclFilters: 
+  configs: 
+  mirrorTopics:
+  mirrorTopicOptions: 

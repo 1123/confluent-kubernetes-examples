@@ -86,6 +86,8 @@ spec:
             userObjectClass: organizationalRole
             userSearchBase: dc=test,dc=com
             userSearchScope: 1
+  passwordEncoder:
+    secretRef: password-encoder-secret
   dependencies:
     kafkaRest:
       authentication:
@@ -100,9 +102,6 @@ spec:
           secretRef: credential
       tls:
         enabled: true
-  configOverrides:
-    server:
-      - confluent.cluster.link.enable=true # Enable Cluster Linking
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: ControlCenter
@@ -148,9 +147,12 @@ spec:
 apiVersion: platform.confluent.io/v1beta1
 kind: KafkaRestClass
 metadata:
-  name: default
+  name: krc-destination
   namespace: confluent
 spec:
+  kafkaClusterRef:
+    name: kafka
+    namespace: confluent
   kafkaRest:
     authentication:
       type: bearer
