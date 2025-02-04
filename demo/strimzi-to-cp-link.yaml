@@ -16,5 +16,7 @@ spec:
   consumerGroupFilters: 
   aclFilters: 
   configs: 
-  mirrorTopics:
+  mirrorTopics: 
+    - name: demotopic
+      state: ACTIVE
   mirrorTopicOptions: 

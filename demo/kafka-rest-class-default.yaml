@@ -1,0 +1,19 @@
+# Control Center tries to create itself a role binding names internal-controlcenter-0. 
+# This rolebinding references a kafkaRestClass named default, which we create using this file. 
+# If this KRC is not present, the creation of the rolebinding errors out (see operator log).
+# As a result, control center will not start. 
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: KafkaRestClass
+metadata:
+  name: default
+  namespace: confluent
+spec:
+  kafkaClusterRef:
+    name: kafka
+    namespace: confluent
+  kafkaRest:
+    authentication:
+      type: bearer
+      bearer:
+        secretRef: rest-credential
