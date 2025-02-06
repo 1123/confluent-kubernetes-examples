@@ -14,6 +14,9 @@ spec:
       name: krc-source
       namespace: confluent  
   consumerGroupFilters: 
+    - name: "*"
+      patternType: LITERAL
+      filterType: INCLUDE
   aclFilters: 
   configs: 
   mirrorTopics: 
