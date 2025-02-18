@@ -8,5 +8,6 @@ kubectl exec kafka-0 -n confluent -- \
     --consumer-property security.protocol=SASL_SSL \
     --consumer-property ssl.truststore.location=/mnt/sslcerts/truststore.jks \
     --consumer-property ssl.truststore.password=mystorepassword \
+    --max-messages 10 \
     --consumer-property "sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=kafka password=kafka-secret;" \
     --from-beginning
