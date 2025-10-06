@@ -28,6 +28,19 @@ spec:
       endpoint: zookeeper.destination.svc.cluster.local:2181
   passwordEncoder:
     secretRef: password-encoder-secret
+  authorization:
+    type: simple
+    superUsers:
+      - User:kafka
+      - User:ANONYMOUS
+  listeners:
+    custom:
+      - name: saslplain
+        port: 9096
+        authentication:
+          type: plain
+          jaasConfig:
+            secretRef: credential
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: KafkaRestClass
