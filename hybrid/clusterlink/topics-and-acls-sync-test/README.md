@@ -124,7 +124,7 @@ EOF
 Produce some messages to the `demo` topic.
 
 ```
-seq 100 | kafka-console-producer --broker-list kafka.source.svc.cluster.local:9096 --topic demo --producer.config /tmp/client.properties
+seq 11 | kafka-console-producer --broker-list kafka.source.svc.cluster.local:9096 --topic demo --producer.config /tmp/client.properties
 ```
 
 Open a new terminal and exec into the destination kafka pod.
@@ -148,6 +148,70 @@ Consume messages from the `demo` topic and verify that the messages are replicat
 ```
 kafka-console-consumer --bootstrap-server kafka.destination.svc.cluster.local:9096 --topic demo --from-beginning --consumer.config /tmp/client.properties
 ```
+
+#### Test Consumer Group Migration
+
+Exec into the source kafka pod.
+
+```
+kubectl -n source exec kafka-0 -it -- bash
+```
+
+Create a `client.properties` file to connect to the Kafka cluster.
+
+```
+cat <<EOF > /tmp/client.properties
+security.protocol=SASL_PLAINTEXT
+sasl.mechanism=PLAIN
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kafka\" password=\"kafka-secret\";
+EOF
+```
+
+Start a consumer on the source cluster with a group id `my-group` and consume some messages. Let it run for a few seconds and then stop it with `Ctrl+C`. The offsets of the consumed messages will be printed.
+
+```
+kafka-console-consumer --bootstrap-server kafka.source.svc.cluster.local:9096 --topic demo --group my-group --consumer.config /tmp/client.properties --property print.offset=true
+```
+
+Open a new terminal and exec into the destination kafka pod.
+
+```
+kubectl -n destination exec kafka-0 -it -- bash
+```
+
+Create a `client.properties` file to connect to the Kafka cluster.
+
+```
+cat <<EOF > /tmp/client.properties
+security.protocol=SASL_PLAINTEXT
+sasl.mechanism=PLAIN
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kafka\" password=\"kafka-secret\";
+EOF
+```
+
+Start a consumer on the destination cluster with the same group id `my-group`. It should resume consuming from where the source consumer left off. The offsets of the consumed messages will be printed.
+
+```
+kafka-console-consumer --bootstrap-server kafka.destination.svc.cluster.local:9096 --topic demo --group my-group --consumer.config /tmp/client.properties --property print.offset=true
+```
+
+While the consumer on the destination cluster is running, open another terminal and produce more messages to the `demo` topic on the source cluster.
+
+```
+kubectl -n source exec kafka-0 -it -- bash
+seq 101 200 | kafka-console-producer --broker-list kafka.source.svc.cluster.local:9096 --topic demo --producer.config /tmp/client.properties
+```
+
+You should see the new messages being consumed by the consumer on the destination cluster.
+
+##### Verify Consumer Offsets
+
+You can verify the consumer group offsets on the destination cluster to see the last committed offset for each partition.
+
+```
+kafka-consumer-groups --bootstrap-server kafka.destination.svc.cluster.local:9096 --describe --group my-group --command-config /tmp/client.properties
+```
+This will show you the current offset, the log end offset, and the lag for each partition of the `demo` topic for the `my-group` consumer group.
 
 ## Tear Down
 

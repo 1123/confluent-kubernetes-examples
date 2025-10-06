@@ -15,6 +15,10 @@ spec:
       namespace: destination
   mirrorTopics:
   - name: demo
+  consumerGroupFilters:
+    - name: "*"
+      patternType: "LITERAL"
+      filterType: "INCLUDE"
   aclFilters:
     - accessFilter: 
         operation: WRITE
