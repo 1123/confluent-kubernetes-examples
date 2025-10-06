@@ -1,0 +1,24 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ClusterLink
+metadata:
+  name: clusterlink-demo
+  namespace: destination
+spec:
+  destinationKafkaCluster:
+    kafkaRestClassRef:
+      name: destination-kafka-rest
+      namespace: destination
+  sourceKafkaCluster:
+    bootstrapEndpoint: kafka.source.svc.cluster.local:9071
+    kafkaRestClassRef:
+      name: source-kafka-rest
+      namespace: destination
+  mirrorTopics:
+  - name: demo
+  aclFilters:
+    - accessFilter: 
+        operation: WRITE
+        permissionType: any
+      resourceFilter:
+        patternType: any
+        resourceType: any
