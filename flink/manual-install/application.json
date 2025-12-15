@@ -8,10 +8,28 @@
    "flinkConfiguration": {
       "metrics.reporter.prom.factory.class": "org.apache.flink.metrics.prometheus.PrometheusReporterFactory",
       "metrics.reporter.prom.port": "9249-9250",
-      "taskmanager.numberOfTaskSlots": "1"
+      "taskmanager.numberOfTaskSlots": "1",
+      "s3.access-key": "your-access-key",
+      "s3.secret-key": "your-secret-key",
+      "state.checkpoints.dir": "s3://your-bucket/flink-checkpoints/"
+   },
+   "podTemplate": {
+     "spec": {
+       "containers": [
+         {
+           "name": "flink-main-container",
+           "env": [
+             {
+               "name": "ENABLE_BUILT_IN_PLUGINS",
+               "value": "flink-s3-fs-hadoop-2.1.0-cp1.jar"
+             }
+           ]
+         }
+       ]
+     }
    },
    "flinkVersion": "v2_0",
-   "image": "benediktubuntudev.azurecr.io/flink-sample-app:0.0.3",
+   "image": "benediktubuntudev.azurecr.io/flink-sample-app:0.0.4",
    "job": {
       "jarURI": "local:///opt/flink/usrlib/flink-examples-streaming-2.3-SNAPSHOT-WindowJoin.jar",
       "parallelism": 3,
