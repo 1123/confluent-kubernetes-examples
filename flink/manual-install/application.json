@@ -11,7 +11,8 @@
       "taskmanager.numberOfTaskSlots": "1",
       "s3.access-key": "your-access-key",
       "s3.secret-key": "your-secret-key",
-      "state.checkpoints.dir": "s3://your-bucket/flink-checkpoints/"
+      "state.checkpoints.dir": "s3://<bucket-name>/flink-checkpoints",
+      "state.savepoints.dir": "s3://<bucket-name>/flink-savepoints"
    },
    "podTemplate": {
      "spec": {
