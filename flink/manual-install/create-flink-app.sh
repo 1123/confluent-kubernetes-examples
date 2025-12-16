@@ -1,2 +1,2 @@
-confluent flink application create application.json --environment env1 --url http://localhost:8080
+confluent flink application create application.yaml --environment env1 --url http://localhost:8080
 
